@@ -17,5 +17,5 @@ from django.urls import path
 from website import logins
 
 urlpatterns = [
-    path('', logins.home),
+    path("", logins.home),
 ] + logins.urlpatterns

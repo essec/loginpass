@@ -4,7 +4,7 @@ from loginpass import create_flask_blueprint
 from loginpass import Twitter, GitHub, Google
 
 app = Flask(__name__)
-app.config.from_pyfile('config.py')
+app.config.from_pyfile("config.py")
 
 
 oauth = OAuth(app)
@@ -13,11 +13,11 @@ oauth = OAuth(app)
 backends = [Twitter, GitHub, Google]
 
 
-@app.route('/')
+@app.route("/")
 def index():
     tpl = '<li><a href="/login/{}">{}</a></li>'
     lis = [tpl.format(b.NAME, b.NAME) for b in backends]
-    return '<ul>{}</ul>'.format(''.join(lis))
+    return "<ul>{}</ul>".format("".join(lis))
 
 
 def handle_authorize(remote, token, user_info):
@@ -25,4 +25,4 @@ def handle_authorize(remote, token, user_info):
 
 
 bp = create_flask_blueprint(backends, oauth, handle_authorize)
-app.register_blueprint(bp, url_prefix='')
+app.register_blueprint(bp, url_prefix="")

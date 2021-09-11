@@ -17,36 +17,39 @@ from ._core import map_profile_fields
 
 
 def normalize_userinfo(client, data):
-    return map_profile_fields(data, {
-        'sub': 'id',
-        'name': 'display_name',
-        'profile': _get_profile,
-        'picture': _get_picture,
-        'email': 'email',
-        'birthdate': 'birthdate',
-        'locale': 'country'
-    })
+    return map_profile_fields(
+        data,
+        {
+            "sub": "id",
+            "name": "display_name",
+            "profile": _get_profile,
+            "picture": _get_picture,
+            "email": "email",
+            "birthdate": "birthdate",
+            "locale": "country",
+        },
+    )
 
 
 class Spotify(object):
-    NAME = 'spotify'
+    NAME = "spotify"
     OAUTH_CONFIG = {
-        'api_base_url': 'https://api.spotify.com/v1/',
-        'access_token_url': 'https://accounts.spotify.com/api/token',
-        'authorize_url': 'https://accounts.spotify.com/authorize',
-        'client_kwargs': {
-            'scope': 'user-read-private user-read-email user-read-birthdate'
+        "api_base_url": "https://api.spotify.com/v1/",
+        "access_token_url": "https://accounts.spotify.com/api/token",
+        "authorize_url": "https://accounts.spotify.com/authorize",
+        "client_kwargs": {
+            "scope": "user-read-private user-read-email user-read-birthdate"
         },
-        'userinfo_endpoint': 'me',
-        'userinfo_compliance_fix': normalize_userinfo,
+        "userinfo_endpoint": "me",
+        "userinfo_compliance_fix": normalize_userinfo,
     }
 
 
 def _get_profile(data):
-    return data['external_urls']['spotify']
+    return data["external_urls"]["spotify"]
 
 
 def _get_picture(data):
-    images = data['images']
+    images = data["images"]
     if images:
-        return images[0]['url']
+        return images[0]["url"]

@@ -15,9 +15,9 @@ st
 
 
 class ORCiD(object):
-    NAME = 'orcid'
+    NAME = "orcid"
     OAUTH_CONFIG = {
-        'api_base_url': 'https://orcid.org/',
-        'server_metadata_url': 'https://orcid.org/.well-known/openid-configuration',
-        'client_kwargs': {'scope': 'openid email profile'},
+        "api_base_url": "https://orcid.org/",
+        "server_metadata_url": "https://orcid.org/.well-known/openid-configuration",
+        "client_kwargs": {"scope": "openid email profile"},
     }

@@ -16,7 +16,7 @@ def map_profile_fields(data, fields):
         else:
             value = data.get(src)
 
-        if value is not None and value != '':
+        if value is not None and value != "":
             profile[dst] = value
 
     return profile
