@@ -17,7 +17,7 @@ from loginpass import (
     Strava,
     LinkedIn,
     ORCiD,
-    create_hydra_backend,
+    create_hydra_backend
 )
 
 
@@ -28,35 +28,46 @@ class TestOAuthBackends(unittest.TestCase):
     def get_profile(self, backend, responses, **kwargs):
         mock_responses = list()
         for filename in responses:
-            with open(os.path.join(TEST_DIR, "data", filename), "r") as f:
+            with open(os.path.join(TEST_DIR, 'data', filename), 'r') as f:
                 resp = mock.MagicMock(spec=requests.Response)
                 data = json.load(f)
                 resp.json.return_value = data
                 resp.status_code = 200
                 mock_responses.append(resp)
 
-        with mock.patch("requests.sessions.Session.send", side_effect=mock_responses):
+        with mock.patch('requests.sessions.Session.send', side_effect=mock_responses):
             profile = backend.profile(**kwargs)
             self.assertIsInstance(profile, UserInfo)
             return profile
 
     def run_oauth_profile(self, backend_cls, responses=None, result=None):
-        c = backend_cls(client_id="a", client_secret="b", **backend_cls.OAUTH_CONFIG)
-        if c.OAUTH_TYPE == "1.0":
-            token = {"oauth_token": "a", "oauth_token_secret": "b"}
+        c = backend_cls(
+            client_id='a',
+            client_secret='b',
+            **backend_cls.OAUTH_CONFIG
+        )
+        if c.OAUTH_TYPE == '1.0':
+            token = {
+                'oauth_token': 'a',
+                'oauth_token_secret': 'b'
+            }
         else:
-            token = {"token_type": "bearer", "access_token": "a"}
+            token = {
+                'token_type': 'bearer',
+                'access_token': 'a'
+            }
 
         if responses is None:
-            responses = [c.OAUTH_NAME + "_response.json"]
+            responses = [c.OAUTH_NAME + '_response.json']
 
         if result is None:
-            result = c.OAUTH_NAME + "_result.json"
+            result = c.OAUTH_NAME + '_result.json'
 
         profile = self.get_profile(c, responses, token=token)
-        with open(os.path.join(TEST_DIR, "data", result), "r") as f:
+        with open(os.path.join(TEST_DIR, 'data', result), 'r') as f:
             rv = json.load(f)
             self.assertEqual(dict(profile), rv)
+
 
     def test_battlenet(self):
         self.run_oauth_profile(BattleNet)
@@ -70,8 +81,8 @@ class TestOAuthBackends(unittest.TestCase):
     def test_github2(self):
         self.run_oauth_profile(
             GitHub,
-            ["github2_response1.json", "github2_response2.json"],
-            "github2_result.json",
+            ['github2_response1.json', 'github2_response2.json'],
+            'github2_result.json',
         )
 
     def test_yandex(self):
@@ -98,13 +109,13 @@ class TestOAuthBackends(unittest.TestCase):
     def test_linkedin(self):
         self.run_oauth_profile(
             LinkedIn,
-            ["linkedin_response1.json", "linkedin_response2.json"],
-            "linkedin_result.json",
+            ['linkedin_response1.json', 'linkedin_response2.json'],
+            'linkedin_result.json',
         )
 
     def test_orcid(self):
         self.run_oauth_profile(ORCiD)
 
     def test_hydra(self):
-        hydra = create_hydra_backend("hydra", "localhost")
+        hydra = create_hydra_backend('hydra', 'localhost')
         self.run_oauth_profile(hydra)

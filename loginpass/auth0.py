@@ -9,7 +9,7 @@
     :license: BSD, see LICENSE for more details.
 """
 
-ALLOW_REGIONS = ["us", "eu", "au"]
+ALLOW_REGIONS = ['us', 'eu', 'au']
 
 
 def create_auth0_backend(name, tenant, region=None):
@@ -17,17 +17,17 @@ def create_auth0_backend(name, tenant, region=None):
 
     if region and region not in ALLOW_REGIONS:
         raise ValueError('Not a vaild "region"')
-    if not region or region == "us":
-        host = "https://{}.auth0.com/".format(tenant)
+    if not region or region == 'us':
+        host = 'https://{}.auth0.com/'.format(tenant)
     else:
-        host = "https://{}.{}.auth0.com/".format(tenant, region)
+        host = 'https://{}.{}.auth0.com/'.format(tenant, region)
 
     class Auth0(object):
         NAME = name
         OAUTH_CONFIG = {
-            "api_base_url": host,
-            "server_metadata_url": host + ".well-known/openid-configuration",
-            "client_kwargs": {"scope": "openid email profile"},
+            'api_base_url': host,
+            'server_metadata_url': host + '.well-known/openid-configuration',
+            'client_kwargs': {'scope': 'openid email profile'},
         }
 
     return Auth0

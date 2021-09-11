@@ -1,3 +1,4 @@
+
 def create_fastapi_routes(backends, oauth, handle_authorize):
     """Create a Fastapi routes that you can register it directly to fastapi
     app. The routes contains two route: ``/auth/<backend>`` and
