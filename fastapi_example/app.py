@@ -23,7 +23,7 @@ async def root() -> str:
     return "<ul>{}</ul>".format("".join(lis))
 
 
-async def handle_authorize(remote, token, user_info, request):
+def handle_authorize(remote, token, user_info, request):
     return user_info
 
 
